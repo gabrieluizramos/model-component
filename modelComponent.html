@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+	<style>
+		@charset 'utf-8';
+
+		html , body{
+			height: 100%;
+		}
+
+		*{
+			margin:0;
+			padding:0;
+			border:none;
+			text-decoration:none;
+			list-style:none;
+			vertical-align:baseline;
+			box-sizing: border-box;
+			z-index:0;
+			font-family:$base-font;
+			outline:none;
+		}
+		.figure{
+			max-width: 100%;
+			text-align:center;
+		}
+		.slide-container{
+			width: 100%;
+			overflow:hidden;
+			position:relative;
+		}
+		.slide-wrapper , .slide-list{
+			width: 100%;
+			height:150px;
+			display:flex;
+			flex-wrap:nowrap;
+			flex-direction:row;
+			align-items:center;
+			justify-content:flex-start;
+		}
+		.slide-item{
+			height:100%;
+			/*width: 100%;*/
+			background:#FFF;
+			position:absolute;
+			width: 100%;
+		}
+		.slide-button{
+			position:absolute;
+			top:0;
+			width:25px;
+			height:25px;
+			color:#FFF;
+			background:black;
+		}
+		.slide-item img{
+			position:relative;
+			z-index:0;
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			user-select: none;
+			pointer-events: none;
+		}
+		.slide-button-prev{
+			left:0;
+		}
+		.slide-button-next{
+			right:0;
+		}
+	</style>
+
+	<div class="slide-container" data-slide="container">
+		<div class="slide-wrapper" data-slide="wrapper">
+			<ul class="slide-list" data-slide="list">
+				<li class="slide-item" data-slide="item">
+					<figure class="figure">
+						<img src="bn.png" alt="" class="img" unselectable="on">
+					</figure>
+				</li>
+				<li class="slide-item" data-slide="item">
+					<figure class="figure">
+						<img src="bn.png" alt="" class="img" unselectable="on">
+					</figure>
+				</li>
+				<li class="slide-item" data-slide="item">
+					<figure class="figure">
+						<img src="bn.png" alt="" class="img" unselectable="on">
+					</figure>
+				</li>
+			</ul>
+		</div>
+		<div class="slide-button slide-button-next" data-slide="next">&rsaquo;</div>
+		<div class="slide-button slide-button-prev" data-slide="prev">&lsaquo;</div>
+	</div>
+
+	<script>
+
+		'use strict';
+
+		var gQuery = function( element ){
+
+			var self = {};
+
+			self.gElement = document.querySelectorAll( element );
+
+			if( self.gElement.length > 1 ){
+				return self.gElement;
+			}
+			else if( self.gElement.length == 1 ){
+				return self.gElement[ 0 ];
+			}
+			else{
+				return undefined;
+			}
+
+			self.css = function(){
+				console.log( 'teste' );
+			}
+
+		};
+		
+
+		// var slide = {
+		// 	config : {
+		// 		elements : {
+		// 			slideItem : '[data-slide="item"]' ,
+		// 			slideList : '[data-slide="list"]' ,
+		// 			slideWrapper : '[data-slide="wrapper"]' ,
+		// 			slideContainer : '[data-slide="container"]' ,
+		// 			slideNext : '[data-slide="next"]' ,
+		// 			slidePrev : '[data-slide="prev"]'
+		// 		} ,
+		// 		slideTime : 500 , 
+		// 		grabFlag : undefined ,
+		// 		pageX : undefined
+		// 	} ,
+
+		// 	actions : {
+
+		// 		start : function(){
+
+		// 			for ( var element in slide.config.elements ){
+		// 				slide.config.elements[ element ] = document.querySelectorAll( slide.config.elements[ element ] );
+		// 			}
+
+		// 			g.css( slide.config.elements.slideList[ 0 ] , { width : ( slide.config.elements.slideItem.length * 100 + '%') } );
+
+		// 			return true;
+		// 		} ,
+
+		// 		exec : function(){
+
+		// 			(function bindElements(){
+
+		// 				var qtd = slide.config.elements.slideItem.length;
+
+		// 				for( var i = 0 ; i < qtd ; i++ ){
+
+		// 					slide.config.elements.slideItem[ i ].addEventListener( 'mousedown' , function( e ){
+		// 						slide.config.grabFlag = true;
+		// 						slide.config.pageX = e.pageX;
+		// 					});
+
+		// 					slide.config.elements.slideItem[ i ].addEventListener( 'mouseup' , function( e ){
+		// 						slide.config.grabFlag = false;
+		// 					});
+
+		// 					slide.config.elements.slideItem[ i ].addEventListener( 'mousemove' , function( e ){
+		// 						if ( slide.config.grabFlag ) {
+
+		// 							g.css( slide.config.elements.slideList[ 0 ] , { transform : ( slide.config.elements.slideItem.length * 100 + '%') } );
+		// 						}
+		// 					});
+
+		// 				}
+
+		// 			})();
+
+		// 			(function bindClickables(){
+
+		// 				var qtd = slide.config.elements.slidePrev.length;
+		// 				for( var i = 0 ; i < qtd ; i++ ){
+		// 					slide.config.elements.slidePrev[ i ].addEventListener( 'click' , function(){
+		// 						alert( 'click prev' );
+		// 					});
+		// 				}
+
+		// 				var qtd = slide.config.elements.slideNext.length;
+		// 				for( var i = 0 ; i < qtd ; i++ ){
+		// 					slide.config.elements.slideNext[ i ].addEventListener( 'click' , function(){
+		// 						alert( 'click next' );
+		// 					});
+		// 				}
+
+		// 			})();
+
+		// 			return true;
+
+		// 		} ,
+		// 		finish : function(){
+		// 			// console.log( 'finish' );
+		// 			return true;
+		// 		}
+		// 	} ,
+		// 	init : function(){
+		// 		for ( var action in slide.actions ) {
+		// 			if( slide.actions[ action ]() ) continue;
+		// 			throw new Error( 'Falha ao executar na action ' + action );
+		// 		}
+		// 	}
+		// }
+
+		// slide.init();
+	</script>
+</body>
+</html>
